@@ -81,52 +81,60 @@ namespace CapaPresentacion
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (Edit == false)
+            if (txtNombre.Text == "" && txtApellido.Text == "" && txtTelefono.Text == "" && txtOcupacion.Text == "")
             {
-                try
+                MessageBox.Show("Ingrese el registro");
+            }
+            else
+            {
+                if (Edit == false)
                 {
-                    obEntidad.Nombre = txtNombre.Text.ToUpper();
-                    obEntidad.Apellidos = txtApellido.Text.ToUpper();
-                    obEntidad.Telefono = txtTelefono.Text.ToUpper();
-                    obEntidad.Ocupacion = txtOcupacion.Text.ToUpper();
-                
-                    obNegocio.InsertarDatos(obEntidad);
+                    try
+                    {
+                        obEntidad.Nombre = txtNombre.Text.ToUpper();
+                        obEntidad.Apellidos = txtApellido.Text.ToUpper();
+                        obEntidad.Telefono = txtTelefono.Text.ToUpper();
+                        obEntidad.Ocupacion = txtOcupacion.Text.ToUpper();
 
-                    MessageBox.Show("Registro guardado");
-                    mostrarBuscarTabla("");
-                    Limpiar();
+                        obNegocio.InsertarDatos(obEntidad);
 
-                    Edit = true;
+                        MessageBox.Show("Registro guardado");
+                        mostrarBuscarTabla("");
+                        Limpiar();
+
+                        Edit = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("No se pudo guardar el registro" + ex);
+                    }
                 }
-                catch(Exception ex)
+                else if (Edit == true)
                 {
-                    MessageBox.Show("No se pudo guardar el registro" + ex);
+                    try
+                    {
+                        obEntidad.Id = Convert.ToInt32(Id);
+                        obEntidad.Nombre = txtNombre.Text.ToUpper();
+                        obEntidad.Apellidos = txtApellido.Text.ToUpper();
+                        obEntidad.Telefono = txtTelefono.Text.ToUpper();
+                        obEntidad.Ocupacion = txtOcupacion.Text.ToUpper();
+
+                        obNegocio.EditarDatos(obEntidad);
+
+                        MessageBox.Show("Registro editado");
+                        mostrarBuscarTabla("");
+                        Limpiar();
+
+                        Edit = false;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("No se pudo editar el registro" + ex);
+                    }
                 }
             }
-            else if (Edit == true)
-            {
-                try
-                {
-                    obEntidad.Id = Convert.ToInt32(Id);
-                    obEntidad.Nombre = txtNombre.Text.ToUpper();
-                    obEntidad.Apellidos = txtApellido.Text.ToUpper();
-                    obEntidad.Telefono = txtTelefono.Text.ToUpper();
-                    obEntidad.Ocupacion = txtOcupacion.Text.ToUpper();
-
-                    obNegocio.EditarDatos(obEntidad);
-
-                    MessageBox.Show("Registro editado");
-                    mostrarBuscarTabla("");
-                    Limpiar();
-
-                    Edit = false;
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("No se pudo editar el registro" + ex);
-                }
-            }
+            
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
